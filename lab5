@@ -1,0 +1,101 @@
+// ConsoleApplication3.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include "pch.h"
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+
+
+int rollDie(int randNum){
+randNum = rand() % 6 + 1;
+return randNum;
+}
+
+bool playOneGame(int pickNum)
+{
+	for (int i = 0; i < 3; i++) {
+		int randNum = rollDie(0);
+		cout << "You rolled a " << randNum;
+		if (randNum == pickNum)
+			return true;
+		else if (i == 2 && randNum != pickNum)
+			return false;
+	}
+}
+
+double account(double wager, double balance) {
+	balance = balance - wager;
+	if (balance < 0)
+		return -1;
+	else {
+		return balance;
+	}
+}
+
+double percentWins(double win, double count){
+	double percent = (win / (count + win)) * 100;
+	return percent;
+}
+double gamesLostCount(int count) {
+	count = count + 1;
+	return count;
+}
+
+int main()
+{
+	srand(time(NULL));
+	int pickNum;
+	double balance * 100;
+	double wager;
+	string quit;
+	int goodVal = 0;
+	double win = 0;
+	double count = 0;
+	while (quit != "no") {
+		if (balance == 0) {
+			cout << "You lost all of your money!" << endl;
+			break;
+		}
+		while (goodVal != 1) {
+			cout << "You have " << balance << "$. How much would you like to wager" << endl;
+			cin >> wager;
+			if (account(wager, balance) == -1) {
+				cout << "You have enough money to wager " << wager << "$." << endl;
+			}
+			else {
+				goodVal = 1;
+			}
+		}
+	}
+	goodVal = 0;
+	while (goodVal != 1) {
+		cout << "Pick a number between 1 and 6." << endl;
+		cin >> pickNum;
+		if (pickNum > 6 || pickNum < 1) {
+			cout << "Number should be between 1 and 6." << endl;
+		}
+		else {
+			goodVal = 1;
+		}
+	}
+	goodVal = 0;
+	if (playOneGame(pickNum) == true) {
+		cout << "You win " << wager << "$." << endl;
+		win = win + 1;
+		balance = wager + wager + account(wager, balance);
+	}
+	else {
+		cout << "You lose " << wager << "$." << endl;
+		balance = account(wager, balance);
+		count = gamesLostCount(count);
+	}
+	cout << "You have " << win << "wins and have won " << percentWins(win, count) << "% of games." << endl;
+	cout << "Would you like to play again? If not type no" << endl;
+	cin >> quit;
+
+
+
+
+}
